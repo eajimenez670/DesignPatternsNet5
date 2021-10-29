@@ -1,7 +1,6 @@
-﻿using DesignPatterns.DependencyInjection;
-using DesignPatterns.Models;
+﻿using DesignPatterns.Models;
+using DesignPatterns.Repository;
 using System;
-using System.Linq;
 
 namespace DesignPatterns
 {
@@ -39,13 +38,64 @@ namespace DesignPatterns
             #endregion
 
             #region Entity Framework
+            //using (var context = new DesignPatternsContext())
+            //{
+            //    var lst = context.Beers.ToList();
+            //    foreach (var beer in lst)
+            //    {
+            //        Console.WriteLine(beer.Name);
+            //    }
+            //}
+            #endregion
+
+            #region Repository
+            //using (var context = new DesignPatternsContext())
+            //{
+            //    var beerReporsitory = new BeerRepository(context);
+            //    var beer = new Beer { Name = "Club Colombia", Style = "Malta" };
+
+            //    beerReporsitory.Add(beer);
+            //    beerReporsitory.SaveChanges();
+
+            //    var beerFind = beerReporsitory.Get(2);
+
+            //    var beers = beerReporsitory.Get();
+
+            //    beer = new Beer { BeerId = 2, Name = "Eirninger", Style = "Refajo" };
+            //    beerReporsitory.Update(beer);
+            //    beerReporsitory.SaveChanges();
+
+            //    beerReporsitory.Delete(3);
+            //    beerReporsitory.SaveChanges();
+            //}
+            #endregion
+
+            #region Repository Generic
             using (var context = new DesignPatternsContext())
             {
-                var lst = context.Beers.ToList();
-                foreach (var beer in lst)
+                var beerRepository = new Repository<Beer>(context);
+
+                Console.WriteLine("********* Begin Beers **********");
+                foreach (var beerDb in beerRepository.Get())
                 {
-                    Console.WriteLine(beer.Name);
+                    Console.WriteLine($"{beerDb.Id} - {beerDb.Name}");
                 }
+                Console.WriteLine("********* End Beers **********");
+
+                Console.WriteLine(Environment.NewLine);
+                Console.WriteLine(Environment.NewLine);
+                Console.WriteLine(Environment.NewLine);
+
+                var brandRepository = new Repository<Brand>(context);
+                brandRepository.Add(new Brand { Name = " Tu puta madre" });
+                brandRepository.SaveChanges();
+
+                Console.WriteLine("********* Begin Brands **********");
+                foreach (var brandDb in brandRepository.Get())
+                {
+                    Console.WriteLine($"{brandDb.Id} - {brandDb.Name}");
+                }
+                Console.WriteLine("********* End Brands **********");
             }
             #endregion
 

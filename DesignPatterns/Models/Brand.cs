@@ -5,9 +5,8 @@ using System.Collections.Generic;
 
 namespace DesignPatterns.Models
 {
-    public partial class Beer : EntityBase
+    public partial class Brand : EntityBase
     {        
         public string Name { get; set; }
-        public string Style { get; set; }
     }
 }
