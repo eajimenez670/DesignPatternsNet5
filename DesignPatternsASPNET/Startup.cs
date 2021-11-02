@@ -5,6 +5,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Tools.Earn;
+using DesignPatterns.Models.Data;
+using Microsoft.EntityFrameworkCore;
+using DesignPatterns.Repository;
 
 namespace DesignPatternsASPNET
 {
@@ -35,6 +38,13 @@ namespace DesignPatternsASPNET
                     Configuration.GetSection("MyConfig").GetValue<decimal>("ForeignExtra")
                 );
             });
+
+            services.AddDbContext<DesignPatternsContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("DesignPatterns"));
+            });
+
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
