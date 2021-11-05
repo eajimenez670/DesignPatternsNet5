@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DesignPatterns.Repository
 {
-    public class Repository<TEntity> : IRepository<TEntity> where TEntity : EntityBase, new()
+    public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
         private readonly DesignPatternsContext _context;
         private readonly DbSet<TEntity> _dbSet;
@@ -24,7 +24,8 @@ namespace DesignPatterns.Repository
 
         public void Delete(int id)
         {
-            _dbSet.Remove(new TEntity() { Id = id });
+            var entity = _dbSet.Find(id);
+            _dbSet.Remove(entity);
         }
 
         public IEnumerable<TEntity> Get()

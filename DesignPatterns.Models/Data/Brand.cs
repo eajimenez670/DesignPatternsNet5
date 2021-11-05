@@ -5,8 +5,16 @@ using System.Collections.Generic;
 
 namespace DesignPatterns.Models.Data
 {
-    public partial class Brand : EntityBase
-    {        
+    public partial class Brand
+    {
+        public Brand()
+        {
+            Beers = new HashSet<Beer>();
+        }
+
+        public Guid Id { get; set; }
         public string Name { get; set; }
+
+        public virtual ICollection<Beer> Beers { get; set; }
     }
 }
