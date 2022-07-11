@@ -1,6 +1,9 @@
-﻿using DesignPatterns.Repository;
+﻿using DesignPatterns.Models.Data;
+using DesignPatterns.Repository;
 using DesignPatternsASPNET.Models.ViewModels;
+using DesignPatternsASPNET.Strategies;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,5 +31,38 @@ namespace DesignPatternsASPNET.Controllers
                                                };
             return View("Index", beers);
         }
+
+        [HttpGet]
+        public IActionResult Add()
+        {
+            GetBrands();
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Add(FormBeerViewModel formBeerVM)
+        {
+            if (!ModelState.IsValid)
+            {
+                GetBrands();
+                return View("Add", formBeerVM);
+            }
+
+            var beerContext = (formBeerVM.BrandId == null) ?
+                              new BeerContext(new BeerWithoutBrandStrategy()) :
+                              new BeerContext(new BeerWithBrandStrategy());
+
+            beerContext.Add(formBeerVM, _unitOfWork);
+
+            return RedirectToAction("Index");
+        }
+
+        #region Helpers
+        private void GetBrands()
+        {
+            var brands = _unitOfWork.Brands.Get();
+            ViewBag.Brands = new SelectList(brands, "Id", "Name");
+        }
+        #endregion
     }
 }

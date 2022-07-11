@@ -8,6 +8,7 @@ using Tools.Earn;
 using DesignPatterns.Models.Data;
 using Microsoft.EntityFrameworkCore;
 using DesignPatterns.Repository;
+using Tools.Generator;
 
 namespace DesignPatternsASPNET
 {
@@ -46,6 +47,7 @@ namespace DesignPatternsASPNET
 
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<GeneratorConcreteBuilder>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

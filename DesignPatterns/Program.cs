@@ -1,5 +1,8 @@
-﻿using DesignPatterns.Models;
+﻿using DesignPatterns.BuilderPattern;
+using DesignPatterns.Models;
 using DesignPatterns.Repository;
+using DesignPatterns.StatePattern;
+using DesignPatterns.StrategyPattern;
 using DesignPatterns.UnitOfWorkPattern;
 using System;
 
@@ -101,27 +104,63 @@ namespace DesignPatterns
             #endregion
 
             #region Unit of Work
-            using (var context = new DesignPatternsContext())
-            {
-                UnitOfWork unit = new UnitOfWork(context);
+            //using (var context = new DesignPatternsContext())
+            //{
+            //    UnitOfWork unit = new UnitOfWork(context);
 
-                var beerRepository = unit.Beers;
-                var beer = new Beer
-                {
-                    Name = "Pilsen",
-                    Style = "Morrocoya"
-                };
-                beerRepository.Add(beer);
+            //    var beerRepository = unit.Beers;
+            //    var beer = new Beer
+            //    {
+            //        Name = "Pilsen",
+            //        Style = "Morrocoya"
+            //    };
+            //    beerRepository.Add(beer);
 
-                var brandRepository = unit.Brands;
-                var brand = new Brand
-                {
-                    Name = "Mercachochas"
-                };
-                brandRepository.Add(brand);
+            //    var brandRepository = unit.Brands;
+            //    var brand = new Brand
+            //    {
+            //        Name = "Mercachochas"
+            //    };
+            //    brandRepository.Add(brand);
 
-                unit.Save();
-            }
+            //    unit.Save();
+            //}
+            #endregion
+
+            #region Strategy
+            //var strategy = new Context(new PdfStrategy());
+            //strategy.Export();
+            //strategy.Strategy = new PngStrategy();
+            //strategy.Export();
+            //strategy.Strategy = new HtmlStrategy();
+            //strategy.Export();
+            #endregion
+
+            #region Builder
+            //var preparedAlcoholDrink = new PreparedAlcoholicDrinkConcreteBuilder();
+            //var barman = new BarmanDirector(preparedAlcoholDrink);
+            //barman.PreparedMargarita();
+            //var preparedDrink = preparedAlcoholDrink.GetPreparedDrink();
+            //Console.WriteLine(preparedDrink.Result);
+            #endregion
+
+            #region State
+            var customerContext = new CustomerContext();
+            Console.WriteLine(customerContext.GetState());
+            customerContext.Request(100);
+            Console.WriteLine(customerContext.GetState());
+
+            customerContext.Request(50);
+            Console.WriteLine(customerContext.GetState());
+
+            customerContext.Request(100);
+            Console.WriteLine(customerContext.GetState());
+
+            customerContext.Request(50);
+            Console.WriteLine(customerContext.GetState());
+
+            customerContext.Request(50);
+            Console.WriteLine(customerContext.GetState());
             #endregion
 
         }
